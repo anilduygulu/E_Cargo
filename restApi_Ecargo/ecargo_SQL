@@ -1,0 +1,218 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Mar 17, 2017 at 12:12 AM
+-- Server version: 5.7.14
+-- PHP Version: 5.6.25
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `ecargo`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `car`
+--
+
+CREATE TABLE `car` (
+  `CarID` int(255) NOT NULL,
+  `CarrierID` int(255) NOT NULL,
+  `CarPlate` varchar(25) NOT NULL,
+  `CarBrand` varchar(100) NOT NULL,
+  `CarModel` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `carrier`
+--
+
+CREATE TABLE `carrier` (
+  `CarrierID` int(255) NOT NULL,
+  `CarrierMail` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `CustomerID` int(255) NOT NULL,
+  `CustomerMail` varchar(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product`
+--
+
+CREATE TABLE `product` (
+  `ProductID` int(255) NOT NULL,
+  `CustomerID` int(255) NOT NULL,
+  `ProductName` varchar(100) NOT NULL,
+  `ProductFrom` varchar(100) NOT NULL,
+  `ProductTo` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `route`
+--
+
+CREATE TABLE `route` (
+  `RouteID` int(255) NOT NULL,
+  `CarID` int(255) NOT NULL,
+  `RouteFrom` varchar(100) NOT NULL,
+  `RouteTo` varchar(100) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `service`
+--
+
+CREATE TABLE `service` (
+  `ServiceID` int(255) NOT NULL,
+  `RouteID` int(255) NOT NULL,
+  `ProductID` int(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `UserID` int(255) NOT NULL,
+  `UserName` varchar(255) NOT NULL,
+  `UserSurname` varchar(255) NOT NULL,
+  `UserPassword` varchar(255) NOT NULL,
+  `UserMail` varchar(255) NOT NULL,
+  `UserSex` varchar(1) NOT NULL,
+  `UserTcNo` varchar(40) NOT NULL,
+  `UserPhoneNumber` varchar(30) NOT NULL,
+  `UserType` varchar(25) NOT NULL,
+  `UserFcmToken` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `api_key` varchar(32) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `car`
+--
+ALTER TABLE `car`
+  ADD PRIMARY KEY (`CarID`),
+  ADD UNIQUE KEY `CarPlate` (`CarPlate`),
+  ADD KEY `Car_fk0` (`CarrierID`);
+
+--
+-- Indexes for table `carrier`
+--
+ALTER TABLE `carrier`
+  ADD PRIMARY KEY (`CarrierID`),
+  ADD KEY `Carrier_fk0` (`CarrierMail`);
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`CustomerID`),
+  ADD KEY `Customer_fk0` (`CustomerMail`);
+
+--
+-- Indexes for table `product`
+--
+ALTER TABLE `product`
+  ADD PRIMARY KEY (`ProductID`),
+  ADD KEY `Product_fk0` (`CustomerID`);
+
+--
+-- Indexes for table `route`
+--
+ALTER TABLE `route`
+  ADD PRIMARY KEY (`RouteID`),
+  ADD KEY `RouteFrom` (`RouteFrom`),
+  ADD KEY `RouteTo` (`RouteTo`),
+  ADD KEY `Route_fk0` (`CarID`);
+
+--
+-- Indexes for table `service`
+--
+ALTER TABLE `service`
+  ADD PRIMARY KEY (`ServiceID`),
+  ADD KEY `Service_fk0` (`RouteID`),
+  ADD KEY `Service_fk1` (`ProductID`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`UserID`,`UserMail`),
+  ADD UNIQUE KEY `UserMail` (`UserMail`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `car`
+--
+ALTER TABLE `car`
+  MODIFY `CarID` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `carrier`
+--
+ALTER TABLE `carrier`
+  MODIFY `CarrierID` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `CustomerID` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `ProductID` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `route`
+--
+ALTER TABLE `route`
+  MODIFY `RouteID` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `service`
+--
+ALTER TABLE `service`
+  MODIFY `ServiceID` int(255) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `UserID` int(255) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
